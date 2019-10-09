@@ -8,7 +8,6 @@ size = (
     int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 )
 codec = cv2.VideoWriter_fourcc(*'DIVX')
-# output = cv2.VideoWriter('videofile_masked.avi', codec, 60.0, size)
 
 while(capture.isOpened()):
     ret, frame = capture.read()
@@ -19,12 +18,6 @@ while(capture.isOpened()):
         frame = display_instances(
             frame, r['rois'], r['masks'], r['class_ids'], class_names, r['scores']
         )
-        # results = model.detect([frame], verbose=0)
-        # r = results[0]
-        # frame = display_instances(
-        #     frame, r['rois'], r['masks'], r['class_ids'], class_names, r['scores']
-        # )
-        # output.write(frame)
         cv2.imshow('frame', frame)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
