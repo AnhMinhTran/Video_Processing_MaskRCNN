@@ -90,38 +90,3 @@ def display_instances(image, boxes, masks, ids, names, scores):
             image, caption, (x1,y1), cv2.FONT_HERSHEY_COMPLEX, 0.7, color, 2
         )
     return image
-
-if __name__ == '__main__':
-    """
-        test everything
-    """
-
-
-    capture = cv2.VideoCapture(0)
-    # Check if the webcam is opened correctly
-    if not capture.isOpened():
-        raise IOError("Cannot open webcam")
-
-    return_value, image = capture.read()
-    print("We take a picture of you, check the folder")
-    cv2.imwrite("image.png", image)
-
-    capture.release()  # Error is here
-    cv2.destroyAllWindows()
-    # these 2 lines can be removed if you dont have a 1080p camera.
-    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
-
-    while True:
-        ret, frame = capture.read()
-        results = model.detect([frame], verbose=0)
-        r = results[0]
-        frame = display_instances(
-            frame, r['rois'], r['masks'], r['class_ids'], class_names, r['scores']
-        )
-        cv2.imshow('frame', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    capture.release()
-    cv2.destroyAllWindows()
